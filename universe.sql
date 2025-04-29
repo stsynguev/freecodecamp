@@ -49,7 +49,7 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.galaxy (
     galaxy_id integer NOT NULL,
-    name character varying(30),
+    name character varying(30) NOT NULL,
     size integer,
     age integer,
     average_temperature numeric(3,1),
@@ -88,13 +88,14 @@ ALTER SEQUENCE public.galaxy_galaxy_id_seq OWNED BY public.galaxy.galaxy_id;
 
 CREATE TABLE public.moon (
     planet_id integer,
-    name character varying(30),
+    name character varying(30) NOT NULL,
     size integer,
     age integer,
     average_temperature numeric(3,1),
     has_life boolean,
     reachable boolean,
-    moon_id integer NOT NULL
+    moon_id integer NOT NULL,
+    description text
 );
 
 
@@ -129,7 +130,7 @@ ALTER SEQUENCE public.moon_moon_id_seq OWNED BY public.moon.moon_id;
 CREATE TABLE public.planet (
     planet_id integer NOT NULL,
     star_id integer,
-    name character varying(30),
+    name character varying(30) NOT NULL,
     size integer,
     age integer,
     average_temperature numeric(3,1),
@@ -169,7 +170,7 @@ ALTER SEQUENCE public.planet_planet_id_seq OWNED BY public.planet.planet_id;
 CREATE TABLE public.star (
     star_id integer NOT NULL,
     galaxy_id integer,
-    name character varying(30),
+    name character varying(30) NOT NULL,
     size integer,
     age integer,
     average_temperature numeric(3,1),
@@ -203,6 +204,41 @@ ALTER SEQUENCE public.star_star_id_seq OWNED BY public.star.star_id;
 
 
 --
+-- Name: universe; Type: TABLE; Schema: public; Owner: freecodecamp
+--
+
+CREATE TABLE public.universe (
+    universe_id integer NOT NULL,
+    name character varying(20) NOT NULL,
+    description text
+);
+
+
+ALTER TABLE public.universe OWNER TO freecodecamp;
+
+--
+-- Name: universe_universe_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+--
+
+CREATE SEQUENCE public.universe_universe_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.universe_universe_id_seq OWNER TO freecodecamp;
+
+--
+-- Name: universe_universe_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+--
+
+ALTER SEQUENCE public.universe_universe_id_seq OWNED BY public.universe.universe_id;
+
+
+--
 -- Name: galaxy galaxy_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
 --
 
@@ -231,6 +267,13 @@ ALTER TABLE ONLY public.star ALTER COLUMN star_id SET DEFAULT nextval('public.st
 
 
 --
+-- Name: universe universe_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.universe ALTER COLUMN universe_id SET DEFAULT nextval('public.universe_universe_id_seq'::regclass);
+
+
+--
 -- Data for Name: galaxy; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
@@ -246,27 +289,27 @@ INSERT INTO public.galaxy VALUES (6, 'Ariadna', 20000, 45000000, 30.4, true, tru
 -- Data for Name: moon; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.moon VALUES (12, 'Moon-1', 2000, 450000, 10.8, false, false, 1);
-INSERT INTO public.moon VALUES (2, 'Moon-2', 1000, 430000, 10.2, false, false, 2);
-INSERT INTO public.moon VALUES (12, 'Moon-13', 100, 45000, 0.2, false, false, 3);
-INSERT INTO public.moon VALUES (11, 'Moon-132', 3000, 350000, 91.2, false, false, 4);
-INSERT INTO public.moon VALUES (3, 'Moon-231', 1000, 250000, 11.1, false, false, 5);
-INSERT INTO public.moon VALUES (3, 'Moon-431', 2000, 50000, 0.9, false, false, 6);
-INSERT INTO public.moon VALUES (13, 'Moon-51', 2000, 50000, 0.9, false, false, 7);
-INSERT INTO public.moon VALUES (4, 'Moon-41', 2000, 50000, 0.9, false, false, 8);
-INSERT INTO public.moon VALUES (5, 'Moon-413', 4, 40000, 25.9, false, false, 9);
-INSERT INTO public.moon VALUES (5, 'Moon-4324', 2000, 50000, 0.9, false, false, 10);
-INSERT INTO public.moon VALUES (4, 'Moon-3453', 2000, 50000, 0.9, false, false, 11);
-INSERT INTO public.moon VALUES (6, 'Moon-453', 2000, 50000, 0.9, false, false, 12);
-INSERT INTO public.moon VALUES (7, 'Moon-3121', 2000, 50000, 0.9, false, false, 13);
-INSERT INTO public.moon VALUES (7, 'Moon-3122', 2000, 50000, 0.9, false, false, 14);
-INSERT INTO public.moon VALUES (6, 'Moon-3123', 2000, 50000, 0.9, false, false, 15);
-INSERT INTO public.moon VALUES (8, 'Moon-3124', 2000, 50000, 0.9, false, false, 16);
-INSERT INTO public.moon VALUES (9, 'Moon-3125', 2000, 50000, 0.9, false, false, 17);
-INSERT INTO public.moon VALUES (9, 'Moon-3126', 2000, 50000, 0.9, false, false, 18);
-INSERT INTO public.moon VALUES (8, 'Moon-3127', 2000, 50000, 0.9, false, false, 19);
-INSERT INTO public.moon VALUES (10, 'Moon-3128', 2000, 50000, 0.9, false, false, 20);
-INSERT INTO public.moon VALUES (13, 'Moon-3129', 2000, 50000, 0.9, false, false, 21);
+INSERT INTO public.moon VALUES (12, 'Moon-1', 2000, 450000, 10.8, false, false, 1, NULL);
+INSERT INTO public.moon VALUES (2, 'Moon-2', 1000, 430000, 10.2, false, false, 2, NULL);
+INSERT INTO public.moon VALUES (12, 'Moon-13', 100, 45000, 0.2, false, false, 3, NULL);
+INSERT INTO public.moon VALUES (11, 'Moon-132', 3000, 350000, 91.2, false, false, 4, NULL);
+INSERT INTO public.moon VALUES (3, 'Moon-231', 1000, 250000, 11.1, false, false, 5, NULL);
+INSERT INTO public.moon VALUES (3, 'Moon-431', 2000, 50000, 0.9, false, false, 6, NULL);
+INSERT INTO public.moon VALUES (13, 'Moon-51', 2000, 50000, 0.9, false, false, 7, NULL);
+INSERT INTO public.moon VALUES (4, 'Moon-41', 2000, 50000, 0.9, false, false, 8, NULL);
+INSERT INTO public.moon VALUES (5, 'Moon-413', 4, 40000, 25.9, false, false, 9, NULL);
+INSERT INTO public.moon VALUES (5, 'Moon-4324', 2000, 50000, 0.9, false, false, 10, NULL);
+INSERT INTO public.moon VALUES (4, 'Moon-3453', 2000, 50000, 0.9, false, false, 11, NULL);
+INSERT INTO public.moon VALUES (6, 'Moon-453', 2000, 50000, 0.9, false, false, 12, NULL);
+INSERT INTO public.moon VALUES (7, 'Moon-3121', 2000, 50000, 0.9, false, false, 13, NULL);
+INSERT INTO public.moon VALUES (7, 'Moon-3122', 2000, 50000, 0.9, false, false, 14, NULL);
+INSERT INTO public.moon VALUES (6, 'Moon-3123', 2000, 50000, 0.9, false, false, 15, NULL);
+INSERT INTO public.moon VALUES (8, 'Moon-3124', 2000, 50000, 0.9, false, false, 16, NULL);
+INSERT INTO public.moon VALUES (9, 'Moon-3125', 2000, 50000, 0.9, false, false, 17, NULL);
+INSERT INTO public.moon VALUES (9, 'Moon-3126', 2000, 50000, 0.9, false, false, 18, NULL);
+INSERT INTO public.moon VALUES (8, 'Moon-3127', 2000, 50000, 0.9, false, false, 19, NULL);
+INSERT INTO public.moon VALUES (10, 'Moon-3128', 2000, 50000, 0.9, false, false, 20, NULL);
+INSERT INTO public.moon VALUES (13, 'Moon-3129', 2000, 50000, 0.9, false, false, 21, NULL);
 
 
 --
@@ -301,6 +344,15 @@ INSERT INTO public.star VALUES (6, 6, 'Madsen', 2000, 50000, 0.9, false, false);
 
 
 --
+-- Data for Name: universe; Type: TABLE DATA; Schema: public; Owner: freecodecamp
+--
+
+INSERT INTO public.universe VALUES (1, 'present', NULL);
+INSERT INTO public.universe VALUES (2, 'past', NULL);
+INSERT INTO public.universe VALUES (3, 'future', NULL);
+
+
+--
 -- Name: galaxy_galaxy_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
@@ -326,6 +378,13 @@ SELECT pg_catalog.setval('public.planet_planet_id_seq', 34, true);
 --
 
 SELECT pg_catalog.setval('public.star_star_id_seq', 6, true);
+
+
+--
+-- Name: universe_universe_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.universe_universe_id_seq', 3, true);
 
 
 --
@@ -398,6 +457,14 @@ ALTER TABLE ONLY public.star
 
 ALTER TABLE ONLY public.star
     ADD CONSTRAINT star_star_id_key UNIQUE (star_id);
+
+
+--
+-- Name: universe universe_universe_id_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.universe
+    ADD CONSTRAINT universe_universe_id_key UNIQUE (universe_id);
 
 
 --
