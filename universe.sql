@@ -460,6 +460,14 @@ ALTER TABLE ONLY public.star
 
 
 --
+-- Name: universe universe_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.universe
+    ADD CONSTRAINT universe_pkey PRIMARY KEY (universe_id);
+
+
+--
 -- Name: universe universe_universe_id_key; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
